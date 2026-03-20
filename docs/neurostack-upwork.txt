@@ -1,0 +1,180 @@
+UPWORK — PROJECT TITLE & DESCRIPTION
+═════════════════════════════════════════════════════════════════
+
+
+────────────────────────────────────────────────────────────────
+PROJECT TITLE (choose one depending on listing type)
+────────────────────────────────────────────────────────────────
+
+OPTION A — Service / Offering Listing:
+"Medical Image Classification & Deep Learning Ensemble Systems | 99.88% Accuracy on Brain Tumor MRI"
+
+OPTION B — Portfolio Project Title:
+"NeuroStack: Brain Tumor Classifier — ResNet50V2 + DenseNet121 Stacked Ensemble | PyTorch"
+
+OPTION C — Profile Headline:
+"AI Engineer specializing in Medical Imaging, Stacked Ensembles & Production-Grade Deep Learning"
+
+
+════════════════════════════════════════════════════════════════
+PROJECT DESCRIPTION
+════════════════════════════════════════════════════════════════
+
+
+OVERVIEW
+────────────────────────────────────────────────────────────────
+
+NeuroStack is a production-grade deep learning system for brain tumor classification from MRI scans. Built to distinguish Glioma (malignant, aggressive) from Meningioma (typically benign) with clinical-grade precision, the system achieved 99.88% accuracy, 100% specificity, and zero false positives on a held-out test set of 800 scans.
+
+This project demonstrates end-to-end ownership of a high-stakes medical AI pipeline — from raw data through architecture design, training, evaluation, and visualization.
+
+
+RESULTS AT A GLANCE
+────────────────────────────────────────────────────────────────
+
+• Accuracy:       99.88%   (95% CI: 99.30% – 99.98%)
+• Sensitivity:    99.75%   (95% CI: 98.60% – 99.96%)
+• Specificity:    100.00%  — Zero false positives
+• Precision:      100.00%  — Every glioma flag was correct
+• AUC-ROC:        0.9975
+• AUC-PR:         0.9988
+• MCC:            0.9975
+• Cohen's Kappa:  0.9975
+• Brier Score:    0.0182   — Well-calibrated probabilities
+• F1-Score:       0.9987
+
+Confusion Matrix (800 test samples):
+  TP = 399 | TN = 400 | FP = 0 | FN = 1
+
+
+SYSTEM ARCHITECTURE
+────────────────────────────────────────────────────────────────
+
+Two-level stacked ensemble:
+
+LEVEL 1 — Base Models (10 total)
+• ResNet50V2Classifier — 5-fold cross-validation
+• DenseNet121Classifier — 5-fold cross-validation
+• Each trained independently on 2,800 MRI scans
+• Each produces calibrated class probabilities
+
+LEVEL 2 — Meta-Learner
+• Input: (N, 20) stacked probability matrix
+• StandardScaler normalization
+• Logistic Regression trained on out-of-fold predictions
+• Output: final binary prediction + confidence score
+
+Key design decisions:
+• Stacking over majority voting — preserves full probability signal
+• Heterogeneous architectures — ResNet's global texture + DenseNet's feature reuse provide complementary failure modes
+• MixUp training — smoother decision boundaries, reduced overconfidence
+• Stratified 5-fold CV — zero data leakage, rigorous generalization estimate
+
+
+TECHNICAL IMPLEMENTATION
+────────────────────────────────────────────────────────────────
+
+Framework & Libraries:
+• PyTorch 2.x — training engine, custom loops, EarlyStopping
+• TorchVision — pretrained ResNet50V2 and DenseNet121 backbones
+• scikit-learn — meta-learner, StandardScaler, all evaluation metrics
+• Matplotlib + Seaborn — 14 custom dark-theme diagnostic visualizations
+• Google Colab (T4 GPU) — training infrastructure
+
+Custom modules built from scratch:
+• DataPipelineManager — stratified fold creation, DataLoader management
+• BrainTumorDataset — custom Dataset class with MixUp augmentation
+• BrainMRIPreprocessor — normalization, augmentation pipeline
+• ResNet50V2Classifier — pretrained backbone + custom classifier head
+• DenseNet121Classifier — pretrained backbone + custom classifier head
+• NeuroStackEnsemble — full stacking orchestration
+• Trainer + train_fold + EarlyStopping — training engine
+• Complete evaluation engine — 20+ metrics, 95% CI, 14 visualizations
+
+
+EVALUATION ENGINE
+────────────────────────────────────────────────────────────────
+
+The evaluation cell computes and visualizes:
+
+Metrics computed:
+Accuracy · Balanced Accuracy · Sensitivity · Specificity · PPV · NPV
+F1 (binary, macro, weighted) · AUC-ROC · AUC-PR · MCC · Cohen's Kappa
+Brier Score · Log Loss · LR+ · LR- · DOR · Youden's J
+All with 95% Wilson confidence intervals
+
+14 diagnostic plots generated:
+1.  Performance Dashboard — 8-panel metric scorecards
+2.  Confusion Matrix — absolute + row-normalized
+3.  ROC Curve — ensemble vs all 10 base model curves
+4.  Precision-Recall Curve
+5.  Probability Distribution — histogram + violin by true class
+6.  Calibration Curve (Reliability Diagram) + histogram
+7.  Base Model Comparison — AUC + accuracy per fold
+8.  Error Analysis — FP/FN profiles, outcome pie, error confidence
+9.  Threshold Sensitivity Analysis — metric sweep 0.01–0.99
+10. Model Diversity — correlation heatmap + ResNet vs DenseNet scatter
+11. Per-Class Metrics — precision/recall/F1 bar chart
+12. Clinical Radar Chart — 8-axis performance spider
+13. DET Curve — detection error tradeoff on normal deviate scale
+14. Complete Metrics Table — all 25 metrics in formatted figure
+
+
+DELIVERABLES (if commissioned for similar work)
+────────────────────────────────────────────────────────────────
+
+For clients requiring a similar medical imaging classification system, I deliver:
+
+✓ Complete training pipeline (data preprocessing → base model training → stacking)
+✓ All model checkpoints + meta-learner serialized and ready for inference
+✓ Full evaluation report with 20+ metrics, confidence intervals, and visualizations
+✓ Inference script for single-image prediction
+✓ Documented, production-ready code
+✓ Google Colab notebook (GPU-ready) or Python package structure
+✓ Technical write-up / README with architecture diagrams
+
+Timeline: Depending on dataset size and GPU availability, a similar stacked ensemble system can be delivered in 2–4 weeks.
+
+
+SKILLS DEMONSTRATED
+────────────────────────────────────────────────────────────────
+
+Deep Learning · Computer Vision · Medical Image Analysis
+PyTorch · scikit-learn · TorchVision
+Stacked Ensemble Methods · Cross-Validation · Model Calibration
+Custom Training Loops · Transfer Learning · MixUp Augmentation
+Statistical Evaluation · Confidence Intervals · ROC/PR Analysis
+Data Pipeline Engineering · Production Code Architecture
+Matplotlib Visualization · Google Colab · GPU Training
+
+
+ABOUT THE ENGINEER
+────────────────────────────────────────────────────────────────
+
+Omar Momtaz — AI Engineer with deep focus on generative AI, computer vision, and production-grade machine learning systems. I specialize in projects where the accuracy of the model is not a vanity metric — it is a real-world requirement.
+
+NeuroStack is one of several high-rigor AI projects in my portfolio. I bring the same engineering discipline — clean architecture, thorough evaluation, zero shortcuts — to every client engagement.
+
+Portfolio: [link]
+GitHub: [link]
+
+
+════════════════════════════════════════════════════════════════
+UPWORK TAGS (select up to 15)
+════════════════════════════════════════════════════════════════
+
+Deep Learning
+Machine Learning
+Computer Vision
+Medical Image Analysis
+PyTorch
+Python
+Neural Networks
+Image Classification
+Transfer Learning
+scikit-learn
+TensorFlow (alternate if needed)
+Data Science
+AI Model Development
+Healthcare AI
+Research & Development

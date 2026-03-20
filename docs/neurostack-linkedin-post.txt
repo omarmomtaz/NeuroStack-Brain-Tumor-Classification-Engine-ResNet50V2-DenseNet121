@@ -1,0 +1,92 @@
+LINKEDIN POST
+═════════════════════════════════════════════════════════════════
+
+
+I built a brain tumor classifier. It achieved 99.88% accuracy.
+
+Here's what that actually means — and why it matters more than the number.
+
+─────────────────────────────────────────────────────────────────
+
+THE PROBLEM
+
+Glioma and Meningioma are two brain tumors with radically different clinical outcomes.
+
+Glioma: aggressive, infiltrative, malignant. Demands immediate chemotherapy.
+Meningioma: typically benign, slow-growing. Surgical but manageable.
+
+Confuse one for the other — and you don't fail a benchmark. You send the wrong patient down the wrong treatment path.
+
+Radiologists are brilliant. They're also human. Fatigue, volume pressure, and inter-reader variability are documented problems in neuro-oncology. AI — built rigorously — can be the second opinion that never sleeps.
+
+─────────────────────────────────────────────────────────────────
+
+WHAT I BUILT
+
+NeuroStack: a two-level stacked ensemble.
+
+→ Level 1: 10 CNN base models
+   ResNet50V2 × 5 folds + DenseNet121 × 5 folds
+   Each trained independently. Each producing its own probability.
+
+→ Level 2: A trained meta-learner
+   Logistic Regression on a (N, 20) feature matrix of stacked probabilities.
+   It learns how much to trust each model, and when.
+
+This is called stacking. It is fundamentally more powerful than voting.
+
+─────────────────────────────────────────────────────────────────
+
+THE RESULTS — on 800 held-out scans the model never saw
+
+✅ Accuracy: 99.88%
+✅ Sensitivity: 99.75% — 399 of 400 gliomas caught
+✅ Specificity: 100.00% — zero false alarms
+✅ Precision: 100.00% — every glioma flag was correct
+✅ AUC-ROC: 0.9975
+✅ MCC: 0.9975
+✅ Cohen's Kappa: 0.9975
+
+The single miss? A glioma case with P(Glioma) ≈ 0.00 — a genuinely borderline scan.
+
+I kept it. Because a model that claims perfection is a model that's lying to you.
+
+─────────────────────────────────────────────────────────────────
+
+THE ENGINEERING DECISIONS THAT MADE THE DIFFERENCE
+
+1. Stacking over voting
+   Majority voting throws away probability mass. The meta-learner extracts signal from all 20 dimensions.
+
+2. Heterogeneous architectures
+   ResNet's residual connections and DenseNet's feature reuse provide complementary inductive biases. Networks that fail differently are more valuable than networks that agree.
+
+3. MixUp training
+   Convex combinations of training pairs force smoother decision boundaries. Proven to reduce overconfidence in medical imaging — and it shows in the calibration (Brier: 0.018).
+
+4. Zero data leakage
+   Stratified folds, out-of-fold meta-learner training, held-out test set never touched until final evaluation. The results are real.
+
+─────────────────────────────────────────────────────────────────
+
+THE BROADER VISION
+
+This is one node in a larger system I'm building.
+
+My focus is generative AI, computer vision, and embodied intelligence. Medical imaging AI is where the stakes are highest and the craft has to be sharpest. NeuroStack was a deliberate training ground for that standard.
+
+The full project includes:
+→ 14 production-grade diagnostic visualizations (ROC, DET, calibration, radar, diversity heatmaps)
+→ Complete evaluation engine with 20+ metrics and 95% confidence intervals
+→ Portfolio case study site + demo video
+
+GitHub: [link]
+Demo: [link]
+
+─────────────────────────────────────────────────────────────────
+
+If you're working at the intersection of deep learning and high-stakes domains — let's connect.
+
+And if you're hiring for AI engineering roles where rigor actually matters — my DMs are open.
+
+#DeepLearning #MedicalAI #ComputerVision #PyTorch #MachineLearning #AIEngineering #BrainTumor #HealthcareAI #StackedEnsemble #Portfolio

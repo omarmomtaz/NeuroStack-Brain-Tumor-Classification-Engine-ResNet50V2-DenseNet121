@@ -1,0 +1,171 @@
+X / TWITTER THREAD
+═════════════════════════════════════════════════════════════════
+Format: each tweet numbered and separated. Stay under 280 chars each.
+Post as a thread, reply-chaining from tweet 1.
+═════════════════════════════════════════════════════════════════
+
+
+[1/12]
+
+I built a brain tumor classifier from scratch.
+
+99.88% accuracy.
+100% specificity.
+Zero false positives.
+
+Here's the full breakdown — architecture, results, and every decision that mattered. 🧵
+
+─────────────────────────────────────────────────────────────────
+
+[2/12]
+
+The problem:
+
+Glioma = aggressive malignant tumor → urgent chemo + radiation
+Meningioma = typically benign → surgical, watchful waiting
+
+Misclassify one for the other and you don't fail a metric.
+You send the wrong patient down the wrong path.
+
+─────────────────────────────────────────────────────────────────
+
+[3/12]
+
+The dataset:
+
+📁 2,800 training MRI scans (1,400 per class)
+📁 800 held-out test scans — never touched until final eval
+✅ Perfectly balanced
+✅ 5-fold stratified cross-validation
+✅ Zero data leakage — enforced at the pipeline level
+
+─────────────────────────────────────────────────────────────────
+
+[4/12]
+
+The architecture — 2 levels:
+
+LEVEL 1: 10 independent CNNs
+→ ResNet50V2 × 5 folds
+→ DenseNet121 × 5 folds
+
+Each produces P(Glioma), P(Meningioma).
+Stack them → shape (N, 20).
+
+LEVEL 2: Logistic Regression meta-learner
+→ Trained on out-of-fold predictions
+
+This is stacking. It is more powerful than voting.
+
+─────────────────────────────────────────────────────────────────
+
+[5/12]
+
+Why two different architectures?
+
+ResNet: residual skip connections → global texture
+DenseNet: dense feature reuse → fine-grained local features
+
+Networks that FAIL DIFFERENTLY are more valuable than networks that agree.
+
+The meta-learner exploits this. That's the entire point.
+
+─────────────────────────────────────────────────────────────────
+
+[6/12]
+
+MixUp training was non-negotiable.
+
+Instead of training on real images alone, you train on convex combinations:
+
+x̃ = λxᵢ + (1−λ)xⱼ
+ỹ = λyᵢ + (1−λ)yⱼ
+
+Forces smoother decision boundaries.
+Reduces overconfidence.
+
+Brier score: 0.018. The calibration curve proves it worked.
+
+─────────────────────────────────────────────────────────────────
+
+[7/12]
+
+The results — 800 test scans, never seen during training:
+
+Accuracy:    99.88% [CI: 99.30–99.98%]
+Sensitivity: 99.75% [CI: 98.60–99.96%]
+Specificity: 100.00%
+Precision:   100.00%
+AUC-ROC:     0.9975
+MCC:         0.9975
+F1:          0.9987
+
+─────────────────────────────────────────────────────────────────
+
+[8/12]
+
+The confusion matrix:
+
+           Pred Meni   Pred Glio
+True Meni    400    │     0      ← zero false alarms
+True Glio      1   │   399      ← one missed glioma
+
+TP=399  TN=400  FP=0  FN=1
+
+The single miss had P(Glioma) ≈ 0.00 — a genuinely borderline scan.
+I kept it. A model that claims perfection is lying.
+
+─────────────────────────────────────────────────────────────────
+
+[9/12]
+
+Individual fold AUCs ranged from 0.940–0.961.
+
+Ensemble AUC: 0.9975.
+
+That gap — from ~0.95 to ~0.998 — IS stacking.
+
+The meta-learner extracted signal from the ensemble that no single model could produce alone.
+
+─────────────────────────────────────────────────────────────────
+
+[10/12]
+
+The evaluation engine generated 14 diagnostic plots:
+
+ROC curve · PR curve · Calibration · DET curve
+Confusion matrix · Radar chart · Threshold sweep
+Error analysis · Model diversity heatmap
+Base model comparison · Per-class metrics
+
+All dark-themed. All production-grade. All automated.
+
+─────────────────────────────────────────────────────────────────
+
+[11/12]
+
+My broader focus:
+
+→ Generative AI
+→ Computer vision
+→ Embodied intelligence (robotics + foundation models)
+
+NeuroStack is one proof point in a larger engineering story.
+
+Medical imaging was the chosen domain because the stakes demand that the craft be sharp.
+
+─────────────────────────────────────────────────────────────────
+
+[12/12]
+
+Full project:
+
+🔗 GitHub: [link] — code, training pipeline, eval engine
+🌐 Demo: [link] — interactive case study site
+📹 Video: [link] — narrated scroll-through
+
+If you build AI for domains where getting it wrong costs something real — follow along.
+
+More projects dropping soon. 🔥
+
+#DeepLearning #MedicalAI #PyTorch #MachineLearning #AIEngineering
